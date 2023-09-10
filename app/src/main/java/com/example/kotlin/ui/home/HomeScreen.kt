@@ -108,14 +108,14 @@ fun HomeScreen() {
                 .padding(2.dp),
             horizontalArrangement = Arrangement.SpaceAround
         ) {
-            ClickableCard(icon = Icons.Rounded.ArrowForward ,text = "Continue path")
-            ClickableCard(icon = Icons.Rounded.Build ,text = "Exercises")
+            ClickableCard(icon = Icons.Rounded.ArrowForward ,text = "Continue path", onTap = { println("Tapped continue path")})
+            ClickableCard(icon = Icons.Rounded.Build ,text = "Exercises", onTap = { println("Tapped Exercises")} )
         }
     }
 }
 
 @Composable
-fun RowScope.ClickableCard(text : String, icon : ImageVector) {
+fun RowScope.ClickableCard(text : String, icon : ImageVector, onTap : () -> Unit) {
 
     val shape = RoundedCornerShape(12.dp) // Replace this with the actual shape you want
     Card(
@@ -128,7 +128,9 @@ fun RowScope.ClickableCard(text : String, icon : ImageVector) {
             .clip(shape = shape)
             .size(100.dp)
             .clickable(
-            ) { /* Do something */ }
+            ) {
+                onTap()
+            }
     ) {
         Box(
             contentAlignment = Alignment.Center,
@@ -137,8 +139,8 @@ fun RowScope.ClickableCard(text : String, icon : ImageVector) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Icon(imageVector = icon, contentDescription = null, modifier = Modifier.size(40.dp))
-                Text(text, fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                Icon(imageVector = icon, contentDescription = null, modifier = Modifier.size(40.dp), tint = Color.White)
+                Text(text, fontWeight = FontWeight.Bold, fontSize = 20.sp, color = Color.White)
             }
         }
     }
