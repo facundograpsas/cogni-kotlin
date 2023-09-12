@@ -27,6 +27,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -36,14 +37,22 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.cognicraft.R
+import com.example.kotlin.enums.OtherScreen
+import com.example.kotlin.ui.home.components.ClickableCard
+import com.example.kotlin.viewmodels.HomeViewModel
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(onNavigateToExercisesScreen: () -> Unit) {
+    val homeViewModel: HomeViewModel = hiltViewModel()
+    val randomTip by homeViewModel.randomTip.observeAsState("Loading tip...")
+
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -51,8 +60,7 @@ fun HomeScreen() {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(50.dp)
-                ,
+                .height(50.dp),
             contentAlignment = Alignment.Center
         ) {
             Text("CogniCraft", fontSize = 20.sp)
@@ -85,17 +93,9 @@ fun HomeScreen() {
                 }
                 // Text Content
                 Text(
-                    "Your text of 100 or 200 words goes here.," +
-                            "Your text of 100 or 200 words goes here." +
-                            "Your text of 100 or 200 words goes here." +
-                            "Your text of 100 or 200 words goes here." +
-                            "Your text of 100 or 200 words goes here." +
-                            "Your text of 100 or 200 words goes here.Your text of 100 or 200 words goes here.Your text of 100 or 200 words goes here."+
-                    "Your text of 100 or 200 words goes here.Your text of 100 or 200 words goes here.Your text of 100 or 200 words goes here."+
-                    "Your text of 100 or 200 words goes here.Your text of 100 or 200 words goes here.Your text of 100 or 200 words goes here.",
-
-                    textAlign = TextAlign.Center,
-                    fontSize = 14.sp,
+                    randomTip,
+                    textAlign = TextAlign.Start,
+                    fontSize = 12.sp,
                     modifier = Modifier.padding(12.dp)
                 )
             }
@@ -108,40 +108,14 @@ fun HomeScreen() {
                 .padding(2.dp),
             horizontalArrangement = Arrangement.SpaceAround
         ) {
-            ClickableCard(icon = Icons.Rounded.ArrowForward ,text = "Continue path", onTap = { println("Tapped continue path")})
-            ClickableCard(icon = Icons.Rounded.Build ,text = "Exercises", onTap = { println("Tapped Exercises")} )
-        }
-    }
-}
-
-@Composable
-fun RowScope.ClickableCard(text : String, icon : ImageVector, onTap : () -> Unit) {
-
-    val shape = RoundedCornerShape(12.dp) // Replace this with the actual shape you want
-    Card(
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
-        elevation = CardDefaults.elevatedCardElevation(defaultElevation = 10.dp),
-        shape = CardDefaults.elevatedShape,
-        modifier = Modifier
-            .padding(10.dp)
-            .weight(1f)
-            .clip(shape = shape)
-            .size(100.dp)
-            .clickable(
-            ) {
-                onTap()
-            }
-    ) {
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier.fillMaxSize()
-        ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                Icon(imageVector = icon, contentDescription = null, modifier = Modifier.size(40.dp), tint = Color.White)
-                Text(text, fontWeight = FontWeight.Bold, fontSize = 20.sp, color = Color.White)
-            }
+            ClickableCard(
+                icon = Icons.Rounded.ArrowForward
+                ,text = "Continue path"
+                , onTap = { println("Tapped continue path")})
+            ClickableCard(
+                icon = Icons.Rounded.Build ,
+                text = "Exercises",
+                onTap = onNavigateToExercisesScreen )
         }
     }
 }

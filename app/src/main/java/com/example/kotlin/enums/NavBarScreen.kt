@@ -7,12 +7,23 @@ import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.ui.graphics.vector.ImageVector
 
-enum class Screen(
+enum class NavBarScreen(
     val route: String,
     val icon: ImageVector
 ) {
     Home("Home", Icons.Filled.Home),
     Learn("Learn", Icons.Filled.Info),
     Stats("Stats", Icons.Filled.Star),
-    Profile("Profile", Icons.Filled.Face)
+    Profile("Profile", Icons.Filled.Face),
+}
+
+enum class OtherScreen(val route: String) {
+    Exercises("Exercises"),
+    Fallacy("Fallacy"),
+    Countdown("Countdown/{nextScreen}"), // updated this line
+    // Add more here
+}
+
+object RouteKeys {
+    const val NextScreen = "nextScreen"
 }

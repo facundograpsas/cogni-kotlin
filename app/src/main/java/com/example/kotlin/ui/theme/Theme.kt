@@ -19,7 +19,7 @@ import androidx.core.view.WindowCompat
 
 private val DarkColorScheme = darkColorScheme(
     primary = Color(0xFFFFFFFF),
-    secondary = Color(0xFF2CFFB5),
+    secondary = Color(0xFF0066FF),
     tertiary = Color(0xFFFFD400),
     background = Color(0xFF000141),
     surface = Color(0xFFE0E0E0),
@@ -66,7 +66,7 @@ fun MyApplicationTheme(
 ) {
 
 
-    Log.i("Info", "MyApplicationTheme: ")
+//    Log.i("Info", "MyApplicationTheme: ")
 
     val colorScheme = when {
 //        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
@@ -83,7 +83,7 @@ fun MyApplicationTheme(
     val view = LocalView.current
     if (!view.isInEditMode) {
 
-        Log.i("Info", "Is not edit or what???: ")
+//        Log.i("Info", "Is not edit or what???: ")
 
         SideEffect {
             val window = (view.context as Activity).window
