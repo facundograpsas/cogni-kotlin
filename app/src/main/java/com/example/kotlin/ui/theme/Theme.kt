@@ -19,11 +19,11 @@ import androidx.core.view.WindowCompat
 
 private val DarkColorScheme = darkColorScheme(
     primary = Color(0xFFFFFFFF),
-    secondary = Color(0xFF2CFFB5),
+    secondary = Color(0xFF0066FF),
     tertiary = Color(0xFFFFD400),
     background = Color(0xFF000141),
     surface = Color(0xFFE0E0E0),
-    onPrimary = Color(0xFFFF7700),
+    onPrimary = Color(0xFF0005FF),
     onSecondary = Color(0xFF07FFE3),
     onTertiary =Color(0xFF6B04FC),
     onBackground = Color(0xFFFFFFFF),
@@ -44,16 +44,17 @@ private val LightColorScheme = lightColorScheme(
 //    onTertiary = Color.White,
 //    onBackground = Color(0xFF1C1B1F),
 //    onSurface = Color(0xFF1C1B1F),
-    primary = Color(0xFF030F4B),
-    secondary = Color(0xFFFF00BF),
-    tertiary = Color(0xFFFF00BF),
+    primary = Color(0xFFFFFFFF),
+    secondary = Color(0xFF2CFFB5),
+    tertiary = Color(0xFFFFD400),
     background = Color(0xFF000141),
-    surface = Color(0xFFFF00BF),
-    onPrimary = Color(0xFFFF00BF),
-    onSecondary = Color(0xFFFF00BF),
-    onTertiary =Color(0xFFFF00BF),
-    onBackground = Color(0xFF060861),
-    onSurface = Color(0xFFFF00BF),
+    surface = Color(0xFFE0E0E0),
+    onPrimary = Color(0xFFFF7700),
+    onSecondary = Color(0xFF07FFE3),
+    onTertiary =Color(0xFF6B04FC),
+    onBackground = Color(0xFFFFFFFF),
+    onSurface = Color(0xFF757575),
+    secondaryContainer = Color(0xFF3847D1),
 )
 
 @Composable
@@ -65,7 +66,7 @@ fun MyApplicationTheme(
 ) {
 
 
-    Log.i("Info", "MyApplicationTheme: ")
+//    Log.i("Info", "MyApplicationTheme: ")
 
     val colorScheme = when {
 //        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
@@ -82,7 +83,7 @@ fun MyApplicationTheme(
     val view = LocalView.current
     if (!view.isInEditMode) {
 
-        Log.i("Info", "Is not edit or what???: ")
+//        Log.i("Info", "Is not edit or what???: ")
 
         SideEffect {
             val window = (view.context as Activity).window

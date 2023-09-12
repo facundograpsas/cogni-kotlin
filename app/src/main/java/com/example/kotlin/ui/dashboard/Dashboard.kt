@@ -1,6 +1,5 @@
 package com.example.kotlin.ui.dashboard
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -8,38 +7,43 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.navigation.NavHostController
-import com.example.kotlin.enums.Screen
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.compose.rememberNavController
+import com.example.kotlin.enums.NavBarScreen
 import com.example.kotlin.ui.AppNavigator
-import com.example.kotlin.ui.shared.NavigationBarSample
+import com.example.kotlin.ui.shared.NavigationBar
 import com.example.kotlin.viewmodels.NavigationViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Dashboard(navController: NavHostController, viewModel: NavigationViewModel) {
+fun Dashboard() {
 
-        val selectedScreen by viewModel.selectedItem.observeAsState(initial = Screen.Home)
+    val navController = rememberNavController()
+    val navViewModel: NavigationViewModel = hiltViewModel()
 
-        Scaffold(
+    val selectedScreen by navViewModel.selectedItem.observeAsState(initial = NavBarScreen.Home)
+        val showNavBar = remember { mutableStateOf(true) }
+
+    Scaffold(
             bottomBar = {
-                NavigationBarSample(
+                NavigationBar(
                     navController = navController,
                     selectedItem = selectedScreen,
                     onItemSelected = { index ->
-                        val screen = viewModel.bottomNavItems[index]
-                        viewModel.updateSelectedItem(index)
+                        navViewModel.updateSelectedItem(index)
                     },
-                    items = viewModel.bottomNavItems
+                    items = navViewModel.bottomNavItems,
                 )
             }
         ) { innerPadding ->
             Box(
                 modifier = Modifier.padding(innerPadding)
             ) {
-                AppNavigator(navController)
+                AppNavigator(navController, showNavBar)
             }
         }
     }
