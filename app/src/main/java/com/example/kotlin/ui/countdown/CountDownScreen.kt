@@ -30,7 +30,7 @@ fun CountdownScreen(onFinish: () -> Unit) {
                 targetValue = 1f,
                 animationSpec = tween(500),
             )
-            delay(500)
+            delay(100)
             countdownState.intValue--
         }
         onFinish()
