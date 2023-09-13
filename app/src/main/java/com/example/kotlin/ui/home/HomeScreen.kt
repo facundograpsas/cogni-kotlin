@@ -33,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -110,11 +111,11 @@ fun HomeScreen(onNavigateToExercisesScreen: () -> Unit) {
         ) {
             ClickableCard(
                 icon = Icons.Rounded.ArrowForward
-                ,text = "Continue path"
+                ,text = stringResource(R.string.continue_path)
                 , onTap = { println("Tapped continue path")})
             ClickableCard(
                 icon = Icons.Rounded.Build ,
-                text = "Exercises",
+                text = stringResource(R.string.exercises),
                 onTap = onNavigateToExercisesScreen )
         }
     }

@@ -32,10 +32,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.cognicraft.R
 
 enum class FallacyScreenEvent {
     Leave
@@ -76,7 +78,14 @@ fun FallacyIdentificationScreen(onEvent: (FallacyScreenEvent) -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .background(brush = Brush.verticalGradient(listOf( MaterialTheme.colorScheme.background, MaterialTheme.colorScheme.secondaryContainer)))
+            .background(
+                brush = Brush.verticalGradient(
+                    listOf(
+                        MaterialTheme.colorScheme.background,
+                        MaterialTheme.colorScheme.secondaryContainer
+                    )
+                )
+            )
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp)
@@ -153,7 +162,7 @@ fun StyledCard() {
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "Question:",
+                text = "${stringResource(id = R.string.question_string)}:",
                 style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.Bold)
             )
             Text(
