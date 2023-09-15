@@ -121,6 +121,13 @@ dependencies {
 
     implementation ("com.airbnb.android:lottie-compose:6.1.0") // Check for the latest version
 
+    implementation("com.squareup.moshi:moshi-kotlin:1.15.0")
+    implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
+
+
+
 }
 
 // Allow references to generated code

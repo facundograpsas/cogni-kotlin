@@ -22,6 +22,9 @@ import kotlinx.coroutines.delay
 fun CountdownScreen(onFinish: () -> Unit) {
     val countdownState = remember { mutableIntStateOf(3) } // Starts at 3
     val animatedScale = remember { Animatable(0f) }
+    val words = listOf("Go!", "Go!", "Set", "Ready?")  // The words you want to display
+
+
 
     LaunchedEffect(true) {
         while (countdownState.intValue > 0) {
@@ -40,7 +43,7 @@ fun CountdownScreen(onFinish: () -> Unit) {
         modifier = Modifier.fillMaxSize()
     ) {
         Text(
-            text = if (countdownState.intValue > 0) countdownState.intValue.toString() else "Let's go!",
+            text = if (countdownState.intValue > 0) words[countdownState.intValue] else "Let's go!",
             style = TextStyle(fontSize = 40.sp, fontWeight = FontWeight.Bold),
             textAlign = TextAlign.Center,
             modifier = Modifier.scale(animatedScale.value)
