@@ -23,6 +23,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -47,7 +48,7 @@ fun NavigationBar(navController: NavHostController, selectedItem: NavBarScreen, 
                 items.forEachIndexed { index, item ->
                     CustomNavigationBarItem(
                         icon = { Icon(item.icon, contentDescription = item.name) },
-                        label = { Text(item.name) },
+                        label = { Text(stringResource(id = item.routeResId)) },
                         selected = selectedItem == item,
                         onClick = {
                             onItemSelected(index)
