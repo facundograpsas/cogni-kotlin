@@ -18,8 +18,8 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,7 +33,8 @@ import com.example.kotlin.viewmodels.NavigationViewModel
 @Composable
 fun NavigationBar(navController: NavHostController, selectedItem: NavBarScreen, onItemSelected: (Int) -> Unit, items: List<NavBarScreen>) {
     val navViewModel: NavigationViewModel = hiltViewModel()
-    val showNavBar by navViewModel.showNavBar.observeAsState(initial = true)
+    val showNavBar by navViewModel.showNavBar.collectAsState(initial = true)
+
 
     if(showNavBar){
         NavigationBar(
