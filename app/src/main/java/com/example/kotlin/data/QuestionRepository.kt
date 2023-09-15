@@ -3,8 +3,9 @@ package com.example.kotlin.data
 import android.util.Log
 import com.example.kotlin.api.ApiClient
 import com.example.kotlin.models.Question
+import javax.inject.Inject
 
-class QuestionRepository {
+class QuestionRepository @Inject constructor() {
 
     suspend fun getQuestion(questionId: String): Question? {
         return try {
