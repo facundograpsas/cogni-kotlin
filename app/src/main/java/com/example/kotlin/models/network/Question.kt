@@ -1,4 +1,4 @@
-package com.example.kotlin.models
+package com.example.kotlin.models.network
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass

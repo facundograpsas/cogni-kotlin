@@ -1,4 +1,4 @@
-package com.example.kotlin.data
+package com.example.kotlin.repositories
 
 import android.content.Context
 import com.example.cognicraft.R
