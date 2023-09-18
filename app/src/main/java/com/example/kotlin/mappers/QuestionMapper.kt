@@ -8,7 +8,7 @@ object QuestionMapper {
 
     fun toEntity(question: Question): QuestionEntity {
         return QuestionEntity(
-            id = 0, // Room will auto-generate this for you
+            backendId = question.backendId,
             level = question.level,
             levelInt = question.levelInt,
             type = question.type,
@@ -26,6 +26,7 @@ object QuestionMapper {
 
     fun toModel(questionEntity: QuestionEntity): Question {
         return Question(
+            backendId = questionEntity.backendId,
             level = questionEntity.level,
             levelInt = questionEntity.levelInt,
             type = questionEntity.type,
@@ -42,4 +43,13 @@ object QuestionMapper {
             )
         )
     }
+
+    fun toEntity(questions: List<Question>): List<QuestionEntity> {
+        return questions.map { toEntity(it) }
+    }
+
+    fun toModel(questionEntities: List<QuestionEntity>): List<Question> {
+        return questionEntities.map { toModel(it) }
+    }
+
 }
