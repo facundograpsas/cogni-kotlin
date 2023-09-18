@@ -9,11 +9,13 @@ import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.util.concurrent.TimeUnit
 
 object ApiClient {
 
     private const val BASE_URL = "http://192.168.1.9:3000/v1/"
 
+    private const val EMULATOR_URL = "http://10.0.2.2:3000/v1/"
 
     private val logging = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
@@ -26,13 +28,16 @@ object ApiClient {
 
     // OkHttp Client
     private val httpClient = OkHttpClient.Builder()
+        .retryOnConnectionFailure(true)
+        .connectTimeout(15, TimeUnit.SECONDS)
+        .readTimeout(15, TimeUnit.SECONDS)
         .addInterceptor(CustomInterceptor())  // Adding custom interceptor
         .addInterceptor(logging)
         .build()
 
     // Retrofit Client
     private val retrofit: Retrofit = Retrofit.Builder()
-        .baseUrl(BASE_URL)
+        .baseUrl(EMULATOR_URL)
         .addConverterFactory(MoshiConverterFactory.create(moshi))
         .client(httpClient)
         .build()
