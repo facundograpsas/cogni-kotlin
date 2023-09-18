@@ -66,7 +66,7 @@ class InitActivity : ComponentActivity() {
 @Composable
 fun InitScreen(viewModel: InitViewModel) {
     val state by viewModel.state.collectAsState()
-        when (state) {
+    when (state) {
             InitState.Loading -> {
                 Box(
                     modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background),  // Add the background color here
