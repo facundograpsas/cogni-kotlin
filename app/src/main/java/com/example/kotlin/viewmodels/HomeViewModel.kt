@@ -1,12 +1,9 @@
 package com.example.kotlin.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.kotlin.data.TipsRepository
-import com.example.kotlin.enums.NavBarScreen
-import com.example.kotlin.enums.OtherScreen
+import com.example.kotlin.repositories.TipsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

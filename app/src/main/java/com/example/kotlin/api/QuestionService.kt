@@ -1,7 +1,7 @@
 package com.example.kotlin.api
 
 
-import com.example.kotlin.models.Question
+import com.example.kotlin.models.network.Question
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path

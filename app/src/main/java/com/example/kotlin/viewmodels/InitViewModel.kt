@@ -3,7 +3,8 @@ package com.example.kotlin.viewmodels
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.kotlin.data.QuestionRepository
+import com.example.kotlin.models.network.Question
+import com.example.kotlin.repositories.QuestionRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,6 +27,9 @@ class InitViewModel @Inject constructor(
     private val _state = MutableStateFlow<InitState>(InitState.Loading)
     val state: StateFlow<InitState> = _state
 
+    private val _questions = MutableStateFlow<List<Question>>(emptyList())
+    val questions: StateFlow<List<Question>> = _questions
+
     init {
         fetchQuestions()
     }
@@ -36,6 +40,8 @@ class InitViewModel @Inject constructor(
 
             try {
                 val questions = questionRepository.getQuestions()
+                _questions.value = questions!!
+                Log.i("Questions", questions.toString())
                 withContext(Dispatchers.Main) {  // Switch to main thread to update UI
                     Log.i("Info", "fetchQuestions:$questions")
                     _state.emit(InitState.InitComplete)  // Emit setup complete state
