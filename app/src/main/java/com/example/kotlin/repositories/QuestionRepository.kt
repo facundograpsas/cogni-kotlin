@@ -1,11 +1,18 @@
-package com.example.kotlin.data
+package com.example.kotlin.repositories
 
 import android.util.Log
 import com.example.kotlin.api.ApiClient
-import com.example.kotlin.models.Question
+import com.example.kotlin.database.QuestionDao
+import com.example.kotlin.models.db.QuestionEntity
+import com.example.kotlin.models.network.Question
 import javax.inject.Inject
 
-class QuestionRepository @Inject constructor() {
+class QuestionRepository @Inject constructor(private val questionDao: QuestionDao) {
+
+    suspend fun insertQuestion(question: QuestionEntity) {
+        return questionDao.insertQuestion(question)
+    }
+
 
     suspend fun getQuestion(questionId: String): Question? {
         return try {
@@ -35,6 +42,4 @@ class QuestionRepository @Inject constructor() {
             null
         }
     }
-
-    // Add more methods to communicate with your API
 }
