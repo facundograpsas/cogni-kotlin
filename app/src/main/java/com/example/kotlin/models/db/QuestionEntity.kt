@@ -3,6 +3,7 @@ package com.example.kotlin.models.db
 import android.util.Log
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverter
 import androidx.room.TypeConverters
@@ -12,9 +13,12 @@ import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 
-@Entity(tableName = "questions")
+@Entity(tableName = "questions",
+    indices = [Index(value = ["backendId"], unique = true)]
+)
 data class QuestionEntity(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0, // Auto-generate a unique ID
+    @PrimaryKey
+    @ColumnInfo(name = "backendId") val backendId: String,  // This is the _id from MongoDB
     @ColumnInfo(name = "level") val level: String,
     @ColumnInfo(name = "levelInt") val levelInt: Int,
     @ColumnInfo(name = "type") val type: String,
