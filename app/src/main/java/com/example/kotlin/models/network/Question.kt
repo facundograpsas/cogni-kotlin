@@ -20,6 +20,7 @@ data class SubQuestion(
 
 @JsonClass(generateAdapter = true)
 data class Question(
+    @Json(name = "_id") val backendId: String,  // The new _id field from the backend
     @Json(name = "level") val level: String,
     @Json(name = "levelInt") val levelInt: Int,
     @Json(name = "type") val type: String,  // If you want to make this an Enum, you can
