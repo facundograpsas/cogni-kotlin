@@ -1,7 +1,7 @@
 package com.example.kotlin
 
 import android.content.Context
-import com.example.kotlin.data.TipsRepository
+import com.example.kotlin.repositories.TipsRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
