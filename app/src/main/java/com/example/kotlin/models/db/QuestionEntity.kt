@@ -19,20 +19,17 @@ import com.squareup.moshi.Types
 data class QuestionEntity(
     @PrimaryKey
     @ColumnInfo(name = "backendId") val backendId: String,  // This is the _id from MongoDB
+    @ColumnInfo(name = "solved") var solved: Boolean = true,
     @ColumnInfo(name = "level") val level: String,
     @ColumnInfo(name = "levelInt") val levelInt: Int,
     @ColumnInfo(name = "type") val type: String,
     @ColumnInfo(name = "text") val text: String,
     @ColumnInfo(name = "question") val question: String?,
-
     @TypeConverters(OptionConverter::class)
     @ColumnInfo(name = "options") val options: List<Option>?,
-
     @ColumnInfo(name = "correctAnswer") val correctAnswer: String,
-
     @TypeConverters(SubQuestionConverter::class)
     @ColumnInfo(name = "subQuestions") val subQuestions: List<SubQuestion>?,
-
     @ColumnInfo(name = "correctAttempts") val correctAttempts: Int = 0,
     @ColumnInfo(name = "wrongAttempts") val wrongAttempts: Int = 0,
     @ColumnInfo(name = "createdAt") val createdAt: String?, // Assuming String format

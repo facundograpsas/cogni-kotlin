@@ -9,6 +9,7 @@ object QuestionMapper {
     fun toEntity(question: Question): QuestionEntity {
         return QuestionEntity(
             backendId = question.backendId,
+            solved = true,
             level = question.level,
             levelInt = question.levelInt,
             type = question.type,
