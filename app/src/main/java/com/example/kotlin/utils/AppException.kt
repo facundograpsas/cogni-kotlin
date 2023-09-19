@@ -5,6 +5,7 @@ sealed class AppException : Exception() {
     data class DatabaseInsertError(override val message: String) : AppException()
     data class DatabaseReadingError(override val message: String) : AppException()
     data class DatabaseEmptyError(override val message: String) : AppException()
+    data class DatabaseUpdateError(override val message: String) : AppException()
     data class NetworkError(override val message: String) : AppException()
 
 }
