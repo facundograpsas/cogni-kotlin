@@ -50,4 +50,40 @@ class QuestionRepository @Inject constructor(private val questionDao: QuestionDa
             DataResult.Failure(AppException.NetworkError("There's been a network error: ${e.message}"))
         }
     }
+
+    private var cachedQuestions: List<QuestionEntity>? = null
+
+    suspend fun fetchQuestionsIfNecessary(): DataResult<List<QuestionEntity>> {
+        return cachedQuestions?.let {
+            DataResult.Success(it)
+        } ?: getQuestionsFromLocalDb().also { result ->
+            if (result is DataResult.Success) {
+                cachedQuestions = result.data
+            }
+        }
+    }
+
+    suspend fun updateQuestion(question: QuestionEntity): DataResult<Unit> {
+        return try {
+            questionDao.updateQuestion(question)
+            DataResult.Success(Unit)  // Indicates successful operation
+        } catch (e: Exception) {
+            Log.e("DatabaseUpdateError", "Error while updating question: ${e.message}", e)
+            DataResult.Failure(AppException.DatabaseUpdateError("There's been an error trying to update the record in the database: ${e.message}"))
+        }
+    }
+
+    suspend fun fetchTenUnsolvedQuestions(): DataResult<List<QuestionEntity>> {
+        return try {
+            val questions = questionDao.getFirstTenUnsolvedQuestions()
+            if (questions.isNotEmpty()) {
+                DataResult.Success(questions)
+            } else {
+                DataResult.Failure(AppException.DatabaseEmptyError("No unsolved questions are available."))
+            }
+        } catch (e: Exception) {
+            Log.e("DatabaseReadingError", "Error while fetching unsolved questions: ${e.message}", e)
+            DataResult.Failure(AppException.DatabaseReadingError("There's been an error trying to read the records from the database: ${e.message}"))
+        }
+    }
 }
