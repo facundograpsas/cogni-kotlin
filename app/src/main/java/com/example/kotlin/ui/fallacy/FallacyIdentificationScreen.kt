@@ -5,17 +5,14 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -38,16 +35,29 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.cognicraft.R
+import com.example.kotlin.models.db.QuestionEntity
+import com.example.kotlin.ui.FallacyScreenEvent
 
-enum class FallacyScreenEvent {
-    Leave
-}
 
 @Composable
-fun FallacyIdentificationScreen(onEvent: (FallacyScreenEvent) -> Unit) {
+fun FallacyIdentificationScreen(
+    currentQuestion : QuestionEntity,
+    currentQuestionIndex : Int,
+    questions : List<QuestionEntity>?,
+    onNextQuestion: (selectedAnswer : String) -> Unit,
+    onEvent: (FallacyScreenEvent) -> Unit) {
+
     var selectedFallacy by remember { mutableStateOf<String?>(null) }
-    val fallacies = listOf("Strawman", "Ad Hominem", "Slippery Slope", "Post Hoc Fallacy")
     var showDialog by remember { mutableStateOf(false) }
+
+
+    val progress = if (questions?.isNotEmpty() == true) {
+        currentQuestionIndex.toFloat() / questions.size.toFloat()
+    } else {
+        0f
+    }
+
+
 
     BackHandler {
         showDialog = true
@@ -92,7 +102,7 @@ fun FallacyIdentificationScreen(onEvent: (FallacyScreenEvent) -> Unit) {
     ) {
 
         LinearProgressIndicator(
-            progress = 0.5f,
+            progress = progress,
             color = Color.Blue,  // Progress color
             trackColor = Color.White,
             modifier = Modifier
@@ -103,23 +113,23 @@ fun FallacyIdentificationScreen(onEvent: (FallacyScreenEvent) -> Unit) {
         )
         Spacer(modifier = Modifier.weight(1f))
 
-        StyledCard()
+        StyledCard(currentQuestion)
         Spacer(modifier = Modifier.weight(1f))
 
-        fallacies.forEach { fallacy ->
+        currentQuestion.options!!.forEach { option ->
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Start,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clickable { selectedFallacy = fallacy }
+                    .clickable { selectedFallacy = option.value }
             ) {
                 RadioButton(
-                    selected = selectedFallacy == fallacy,
-                    onClick = { selectedFallacy = fallacy }
+                    selected = selectedFallacy == option.value,
+                    onClick = { selectedFallacy = option.value }
                 )
                 Text(
-                    text = fallacy,
+                    text = option.value,
                     style = TextStyle(fontSize = 18.sp),
                     modifier = Modifier.padding(start = 16.dp)
                 )
@@ -129,7 +139,9 @@ fun FallacyIdentificationScreen(onEvent: (FallacyScreenEvent) -> Unit) {
         Spacer(modifier = Modifier.weight(1f))
 
         Button(
-            onClick = { /* Logic to check the selected fallacy */ },
+            onClick = {
+                onNextQuestion(selectedFallacy!!)
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(80.dp),
@@ -143,7 +155,7 @@ fun FallacyIdentificationScreen(onEvent: (FallacyScreenEvent) -> Unit) {
 
 
 @Composable
-fun StyledCard() {
+fun StyledCard(currentQuestion: QuestionEntity) {
     Card(
         modifier = Modifier.fillMaxWidth()
     ) {
@@ -153,11 +165,11 @@ fun StyledCard() {
                 .padding(16.dp)
         ) {
             Text(
-                text = "Argument:",
+                text = currentQuestion.type,
                 style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.Bold)
             )
             Text(
-                text = "We should ban violent video games because a recent study found that most criminals play them.",
+                text = currentQuestion.text,
                 style = TextStyle(fontSize = 16.sp)
             )
             Spacer(modifier = Modifier.height(8.dp))
@@ -166,7 +178,7 @@ fun StyledCard() {
                 style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.Bold)
             )
             Text(
-                text = "What fallacy is present in this argument?",
+                text = currentQuestion.question!!,
                 style = TextStyle(fontSize = 16.sp)
             )
         }
