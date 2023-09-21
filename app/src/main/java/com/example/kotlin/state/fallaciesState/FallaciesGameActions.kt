@@ -8,11 +8,24 @@ sealed class FallaciesGameAction {
         val newQuestion: QuestionEntity?,
         val newScore: Int,
         val newIndex: Int,
-        val questions : List<QuestionEntity>
+        val questions : List<QuestionEntity>,
+        val userAnswers : MutableMap<String, String>
     ) : FallaciesGameAction()
-    data class QuestionsFetched(val question: QuestionEntity, val index: Int, val score : Int, val questions : List<QuestionEntity>
+
+    data class CompleteFallaciesGame(
+        val score: Int,
+        val questions : List<QuestionEntity>,
+        val userAnswers : MutableMap<String, String>
+    ) : FallaciesGameAction()
+
+    data class QuestionsFetched(
+        val question: QuestionEntity,
+        val index: Int,
+        val score : Int,
+        val questions : List<QuestionEntity>,
+        val userAnswers : MutableMap<String, String>
     ) : FallaciesGameAction()
     data class FetchError(val message: String) : FallaciesGameAction()
-    object CompleteFallaciesGame : FallaciesGameAction()
+//    object CompleteFallaciesGame : FallaciesGameAction()
     // ... more actions
 }

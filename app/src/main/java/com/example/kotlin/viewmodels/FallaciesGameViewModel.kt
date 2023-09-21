@@ -40,8 +40,9 @@ class FallaciesGameViewModel @Inject constructor(private val questionRepository:
         _fallaciesGameStates.emit(newState)
         when (newState) {
             is FallaciesGameStates.Loaded -> {
-                _fallaciesGameData.value = FallaciesGameData(newState.question,newState.score, fallaciesGameData.value.questions, newState.index)
+                _fallaciesGameData.value = FallaciesGameData(newState.question,newState.score, fallaciesGameData.value.questions, newState.index, newState.userAnswers)
             }
+
             else -> {}
         }
     }
@@ -58,7 +59,7 @@ class FallaciesGameViewModel @Inject constructor(private val questionRepository:
             when (val result = questionRepository.fetchTenUnsolvedQuestions()) { // Changed this line
                 is DataResult.Success -> {
                     _fallaciesGameData.value = FallaciesGameData(currentQuestion = result.data[0], currentScore = 0, questions = result.data, currentIndex = 0)
-                    dispatchAction(FallaciesGameAction.QuestionsFetched(result.data[0], index = 0, score = 0, result.data))
+                    dispatchAction(FallaciesGameAction.QuestionsFetched(result.data[0], index = 0, score = 0, result.data, userAnswers = mutableMapOf()))
                     Log.d("FetchQuestions", "Successfully fetched questions. Total questions: ${result.data.size}")
                     Log.d("FetchQuestions", "Questions list updated.")
                 }
@@ -78,6 +79,15 @@ suspend fun nextQuestion(selectedAnswer: String) {
     val newIndex = currentGameData.currentIndex + 1
     val questions = currentGameData.questions ?: return // Early exit if questions are null
 
+    // Update userAnswers map
+    currentGameData.userAnswers[currentQuestion.backendId] = selectedAnswer
+    currentGameData.userAnswers.put(currentQuestion.backendId,selectedAnswer)
+
+
+    Log.d("currentQuestion", "$currentQuestion")
+
+    Log.d("userAnswers", "${currentGameData.userAnswers}")
+
     if (selectedAnswer == currentQuestion.correctAnswer) {
         score += 1
         updateQuestionSolvedStatus(currentQuestion)
@@ -85,9 +95,9 @@ suspend fun nextQuestion(selectedAnswer: String) {
 
     if (newIndex < questions.size) {
         val newQuestion = questions[newIndex]
-        dispatchAction(FallaciesGameAction.UpdateFallaciesGameData(newQuestion, score, newIndex, questions))
+        dispatchAction(FallaciesGameAction.UpdateFallaciesGameData(newQuestion, score, newIndex, questions, currentGameData.userAnswers))
     } else {
-        dispatchAction(FallaciesGameAction.CompleteFallaciesGame)
+        dispatchAction(FallaciesGameAction.CompleteFallaciesGame(score = score, questions = questions, userAnswers = currentGameData.userAnswers))
     }
 }
 

@@ -8,10 +8,14 @@ sealed class FallaciesGameStates {
         val index: Int,
         val score : Int,
         val questions: List<QuestionEntity>?,
-        val isUpdated: Boolean = false
-
-        ) : FallaciesGameStates()
+        val isUpdated: Boolean = false,
+        val userAnswers : MutableMap<String, String>
+    ) : FallaciesGameStates()
     object Loading : FallaciesGameStates()
-    object Complete : FallaciesGameStates()
+    data class Complete(
+        val score : Int,
+        val questions: List<QuestionEntity>?,
+        val userAnswers : MutableMap<String, String>
+    ) : FallaciesGameStates()
     data class Failure(val error: String) : FallaciesGameStates()
 }
