@@ -13,12 +13,23 @@ import com.example.kotlin.enums.NavBarScreen
 import com.example.kotlin.enums.OtherScreen
 import com.example.kotlin.enums.RouteKeys
 import com.example.kotlin.ui.countdown.CountdownScreen
-import com.example.kotlin.ui.fallacy.FallacyIdentificationScreen
-import com.example.kotlin.ui.fallacy.FallacyScreenEvent
+import com.example.kotlin.ui.fallacy.FallacyGameFlowScreen
 import com.example.kotlin.ui.home.HomeScreen
 import com.example.kotlin.ui.learn.ExercisesScreen
 import com.example.kotlin.ui.learn.LearnScreen
 import com.example.kotlin.viewmodels.NavigationViewModel
+
+// AppEvent.kt
+sealed class AppEvent {
+    object NavigateBack : AppEvent()
+    // ... other global events
+}
+
+// FallacyScreenEvent.kt
+sealed class FallacyScreenEvent {
+    object Leave : FallacyScreenEvent()
+    // ... other local events
+}
 
 @Composable
 fun AppNavigator(navController: NavHostController, showNavBar : MutableState<Boolean>) {
@@ -42,9 +53,9 @@ fun AppNavigator(navController: NavHostController, showNavBar : MutableState<Boo
             })
         }
         composable(OtherScreen.Fallacy.route) {
-            FallacyIdentificationScreen{
+            FallacyGameFlowScreen{
                 event -> when(event){
-                    FallacyScreenEvent.Leave -> {
+                    AppEvent.NavigateBack -> {
                         navController.popBackStack()
                     }
                 }
