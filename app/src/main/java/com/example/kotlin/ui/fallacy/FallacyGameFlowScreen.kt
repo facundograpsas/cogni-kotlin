@@ -27,7 +27,7 @@ fun FallacyGameFlowScreen(onEvent: (AppEvent) -> Unit) {
         }
         is FallaciesGameStates.Loaded -> {
             val (currentQuestion, currentIndex, score , questions) = gameState as FallaciesGameStates.Loaded
-            FallacyIdentificationScreen(currentQuestion, currentIndex, questions, onNextQuestion = handleNextQuestion) { localEvent ->
+            FallacyScoreScreen(currentQuestion, currentIndex, questions, onNextQuestion = handleNextQuestion) { localEvent ->
                 when (localEvent) {
                     FallacyScreenEvent.Leave -> onEvent(AppEvent.NavigateBack)
                     // Other events can be forwarded to ViewModel or handled here
@@ -35,8 +35,15 @@ fun FallacyGameFlowScreen(onEvent: (AppEvent) -> Unit) {
             }
         }
         is FallaciesGameStates.Complete -> {
-            Box(modifier = Modifier) {
-                Text(text = "JUEGO FINALIZADO")
+            val (score , questions, userAnswers) = gameState as FallaciesGameStates.Complete
+//            Box(modifier = Modifier) {
+//                Text(text = "JUEGO FINALIZADO")
+//            }
+            FallacyScoreScreen(score = score, questions = questions, userAnswers = userAnswers)  { localEvent ->
+                when (localEvent) {
+                    FallacyScreenEvent.Leave -> onEvent(AppEvent.NavigateBack)
+                    // Other events can be forwarded to ViewModel or handled here
+                }
             }
         }
         is FallaciesGameStates.Failure -> {
