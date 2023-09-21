@@ -17,7 +17,7 @@ interface QuestionDao {
     @Insert
     fun insertQuestion(question: QuestionEntity)
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertQuestions(questions: List<QuestionEntity>)
 
     @Update
@@ -28,4 +28,7 @@ interface QuestionDao {
 
     @Query("SELECT * FROM questions WHERE solved = 0 LIMIT 10")
     fun getFirstTenUnsolvedQuestions(): List<QuestionEntity>
+
+    @Query("SELECT * FROM questions WHERE solved = 0 AND levelInt = 5 ORDER BY RANDOM() LIMIT 10")
+    fun getTenLevelFiveUnsolvedQuestions(): List<QuestionEntity>
 }
