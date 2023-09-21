@@ -16,7 +16,6 @@ class HomeViewModel @Inject constructor(private val tipsRepository: TipsReposito
     init {
         _randomTip.value = getRandomTip()
     }
-
     fun getRandomTip(): String {
         val tips = tipsRepository.getDailyTips()
         return tips.random()

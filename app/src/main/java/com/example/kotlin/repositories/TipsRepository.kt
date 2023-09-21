@@ -13,7 +13,6 @@ class TipsRepository @Inject constructor(private val context: Context) {
         val json = inputStream.bufferedReader().use { it.readText() }
         val jsonObject = JSONObject(json)
         val jsonArray = jsonObject.getJSONArray("tips")
-
         return Array(jsonArray.length()) { i -> jsonArray.getString(i) }
     }
 }
