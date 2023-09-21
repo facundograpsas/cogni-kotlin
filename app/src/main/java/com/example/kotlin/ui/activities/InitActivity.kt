@@ -84,7 +84,18 @@ fun InitScreen(viewModel: InitViewModel) {
                 // Optionally show a "Complete" message or just remain empty as you're navigating away
             }
             is InitState.Failure -> {
+
                 // Show an error message or UI
+                Box(
+                    modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.error),  // Add the background color here
+                    contentAlignment = Alignment.Center
+                ) {
+                    // Set the background color
+                    Image(
+                        painter = painterResource(id = R.drawable.logo_vertical), // Replace with your image
+                        contentDescription = "App logo or whatever",
+                    )
+                }
             }
         }
     }
