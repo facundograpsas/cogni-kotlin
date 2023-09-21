@@ -7,7 +7,7 @@ import com.example.kotlin.models.db.OptionConverter
 import com.example.kotlin.models.db.QuestionEntity
 import com.example.kotlin.models.db.SubQuestionConverter
 
-@Database(entities = [QuestionEntity::class], version = 4)
+@Database(entities = [QuestionEntity::class], version = 8)
 @TypeConverters(OptionConverter::class, SubQuestionConverter::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun questionDao(): QuestionDao

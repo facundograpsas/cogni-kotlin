@@ -37,7 +37,7 @@ object ApiClient {
 
     // Retrofit Client
     private val retrofit: Retrofit = Retrofit.Builder()
-        .baseUrl(EMULATOR_URL)
+        .baseUrl(BASE_URL)
         .addConverterFactory(MoshiConverterFactory.create(moshi))
         .client(httpClient)
         .build()
